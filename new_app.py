@@ -28,7 +28,7 @@ class MyFrame1(wx.Frame):
         self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
 
         bSizer1 = wx.BoxSizer(wx.VERTICAL)
-
+        self.fileDefine = []
         self.m_staticText1 = wx.StaticText(self, wx.ID_ANY,
                                            'CAD轉SHP的批次預處理器，可以協助GIS轉換的過程，將標註點位校正及炸裂圖塊。\n\n'
                                            '使用說明:\n\n'
@@ -51,25 +51,32 @@ class MyFrame1(wx.Frame):
         gbSizer1.SetFlexibleDirection(wx.BOTH)
         gbSizer1.SetNonFlexibleGrowMode(wx.FLEX_GROWMODE_SPECIFIED)
 
-        self.m_button2 = wx.Button(self, wx.ID_ANY, u"選擇資料夾", wx.Point(-1, -1), wx.DefaultSize, 0)
-        gbSizer1.Add(self.m_button2, wx.GBPosition(1, 0), wx.GBSpan(1, 1), wx.ALL, 5)
-
         self.m_staticText6 = wx.StaticText(self, wx.ID_ANY, u"01 定義轉檔對象", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_staticText6.Wrap(-1)
         gbSizer1.Add(self.m_staticText6, wx.GBPosition(0, 0), wx.GBSpan(1, 1), wx.ALL, 5)
 
+        self.fileDefineSelectButton = wx.Button(self, wx.ID_ANY, u"選擇檔案", wx.Point(-1, -1), wx.DefaultSize, 0)
+        gbSizer1.Add(self.fileDefineSelectButton, wx.GBPosition(1, 0), wx.GBSpan(1, 1), wx.ALL, 5)
+
+        self.fileDefineClearButton = wx.Button(self, wx.ID_ANY, u"清除", wx.Point(-1, -1), wx.DefaultSize, 0)
+        gbSizer1.Add(self.fileDefineClearButton, wx.GBPosition(1, 1), wx.GBSpan(1, 1), wx.ALL, 5)
+
+        self.fileListText = wx.StaticText(self, wx.ID_ANY, "", wx.DefaultPosition, wx.DefaultSize, 0)
+        self.fileListText.Wrap(-1)
+        gbSizer1.Add(self.fileListText, wx.GBPosition(2, 0), wx.GBSpan(1, 1), wx.ALL, 5)
+
         bSizer1.Add(gbSizer1, 1, wx.EXPAND, 5)
 
-        gbSizer2 = wx.GridBagSizer(0, 0)
+        gbSizer2 = wx.GridBagSizer(0, 2)
         gbSizer2.SetFlexibleDirection(wx.BOTH)
         gbSizer2.SetNonFlexibleGrowMode(wx.FLEX_GROWMODE_SPECIFIED)
 
-        self.m_staticText7 = wx.StaticText(self, wx.ID_ANY, u"02 定義批次對象", wx.DefaultPosition, wx.DefaultSize, 0)
+        self.m_staticText7 = wx.StaticText(self, wx.ID_ANY, u"02 定義批次資料夾", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_staticText7.Wrap(-1)
         gbSizer2.Add(self.m_staticText7, wx.GBPosition(0, 0), wx.GBSpan(1, 1), wx.ALL, 5)
 
         self.m_button3 = wx.Button(self, wx.ID_ANY, u"選擇資料夾", wx.DefaultPosition, wx.DefaultSize, 0)
-        gbSizer2.Add(self.m_button3, wx.GBPosition(1, 0), wx.GBSpan(1, 1), wx.ALL, 5)
+        gbSizer2.Add(self.m_button3, wx.GBPosition(0, 1), wx.GBSpan(1, 1), wx.ALL, 5)
 
         bSizer1.Add(gbSizer2, 1, wx.EXPAND, 5)
 
@@ -81,7 +88,25 @@ class MyFrame1(wx.Frame):
 
         self.Centre(wx.BOTH)
 
+        self.fileDefineSelectButton.Bind(wx.EVT_BUTTON, self.onFileDefineClick)
+
     def __del__(self):
+        pass
+
+    def onFileDefineClick(self, event):
+        openFileDialog = wx.FileDialog(frame, "選擇檔案", "", "",
+                                       "*.dwg",
+                                       wx.FD_OPEN | wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
+        # openFileDialog.ShowModal()
+        # print(openFileDialog.GetPath())
+        if openFileDialog.ShowModal() == wx.ID_OK:
+            self.fileDefine = openFileDialog.GetPaths()
+            self.updateFileDefine()
+
+    def updateFileDefine(self):
+        print("do something here", self.fileDefine)
+        s = ''.join(str(x)+"\n" for x in self.fileDefine)
+        self.fileListText.SetLabel(s)
         pass
 
 
