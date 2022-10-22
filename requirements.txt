@@ -1,0 +1,2 @@
+pypiwin32==223
+easygui==0.98.3
