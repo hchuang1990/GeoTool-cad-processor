@@ -5,7 +5,8 @@ import win32com.client
 import pythoncom
 import array
 import comtypes.client
-paper = 'A4'
+# printType = 'PublishToWeb JPG.pc3'
+printType = 'DWG To PDF.pc3'
 
 
 def APoint(x, y):
@@ -40,28 +41,28 @@ for entity in acad.ActiveDocument.ModelSpace:
 print("lowerLeft", [lowerLeft[0], lowerLeft[1]])
 print("underRight", [underRight[0], underRight[1]])
 
+# 打印機
+layout.ConfigName = printType
+layout.CanonicalMediaName = 'ISO_full_bleed_A2_(594.00_x_420.00_MM)'
 layout.PaperUnits = 1  # 图纸单位，1为毫米
 layout.PlotRotation = 0  # 横向打印
 layout.StandardScale = 0  # 图纸打印比例
 layout.CenterPlot = True  # 居中打印
 layout.PlotWithPlotStyles = True  # 依照样式打印
 layout.PlotHidden = False  # 隐藏图纸空间对象
-layout.CanonicalMediaName = 'ISO_full_bleed_A2_(594.00_x_420.00_MM)'
-# layout.CanonicalMediaName = 'Sun_Hi-Res_(1280.00_x_1600.00_Pixels)'  # 图纸大小这里选择A4
-layout.UseStandardScale=True #选用标准的比例
-layout.ConfigName = "PublishToWeb JPG.pc3"
 layout.CenterPlot = True
+layout.UseStandardScale = True #选用标准的比例
 
 po1 = APoint( lowerLeft[0] * Scale - 1, lowerLeft[1] * Scale)
 po2 = APoint( underRight[0] * Scale - 1 + 11880, underRight[1] * Scale + 8400) # 左下点和右上点
-layout.SetWindowToPlot(po1,po2)
+layout.SetWindowToPlot(po1, po2)
 
 # p1=acad.GetPoint()
 # p2=acad.GetPoint()
 # layout.SetWindowToPlot(VtFloat(p1[:2]),VtFloat(p2[:2]))
 # layout.PlotType=win32com.client.constants.acWindow
 
-doc.Plot.PlotToFile("D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects\A020027\\" + "test" + ".jpg")
+doc.Plot.PlotToFile("D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects\A020027\\" + "test" + ".pdf")
 #
 # oplot.Delete()
 # oplot = None
