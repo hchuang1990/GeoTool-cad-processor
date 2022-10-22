@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import win32com.client
 import pythoncom
+import win32com.client
 
-printType = 'DWG To TIFF6.pc3'
+printType = 'DWG To PDF.pc3'
 
 
 def APoint(x, y):
@@ -43,9 +43,8 @@ def convert(folder):
 
     # 打印機
     layout.ConfigName = printType
-    # layout.CanonicalMediaName = 'ISO_full_bleed_A2_(594.00_x_420.00_MM)'
-    layout.CanonicalMediaName = 'Sun_Hi-Res_(1280.00_x_1600.00_Pixels)'  # 图纸大小这里选择A4
-    # layout.PaperUnits = 1  # 图纸单位，1为毫米
+    layout.CanonicalMediaName = 'ISO_full_bleed_A2_(594.00_x_420.00_MM)'
+    layout.PaperUnits = 1  # 图纸单位，1为毫米
     layout.PlotRotation = 0  # 横向打印
     layout.StandardScale = 0  # 图纸打印比例
     layout.CenterPlot = True  # 居中打印
@@ -57,8 +56,7 @@ def convert(folder):
     po1 = APoint(lowerLeft[0] * Scale - 1, lowerLeft[1] * Scale)
     po2 = APoint(underRight[0] * Scale - 1 + 11880, underRight[1] * Scale + 8400)  # 左下点和右上点
     layout.SetWindowToPlot(po1, po2)
-    # layout.PlotType = 3.5
 
-    doc.Plot.PlotToFile(f"{folder}\\test.tiff")
+    doc.Plot.PlotToFile(f"{folder}\\_test.pdf")
 
     doc.Close(False)
