@@ -5,6 +5,7 @@ import win32com.client
 import pythoncom
 import array
 import comtypes.client
+
 # printType = 'PublishToWeb JPG.pc3'
 printType = 'DWG To PDF.pc3'
 
@@ -13,6 +14,7 @@ def APoint(x, y):
     """坐标点转化为浮点数"""
     # 需要两个点的坐标
     return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_R8, (x, y))
+
 
 acad = win32com.client.Dispatch("AutoCAD.Application")
 # 文件
@@ -56,17 +58,13 @@ layout.UseStandardScale = True #选用标准的比例
 po1 = APoint( lowerLeft[0] * Scale - 1, lowerLeft[1] * Scale)
 po2 = APoint( underRight[0] * Scale - 1 + 11880, underRight[1] * Scale + 8400) # 左下点和右上点
 layout.SetWindowToPlot(po1, po2)
+# layout.PlotType = 3.5
 
-# p1=acad.GetPoint()
-# p2=acad.GetPoint()
-# layout.SetWindowToPlot(VtFloat(p1[:2]),VtFloat(p2[:2]))
-# layout.PlotType=win32com.client.constants.acWindow
+if "PDF" in printType:
+    doc.Plot.PlotToFile("D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects\A020027\\" + "test" + ".pdf")
+elif "JPG" in printType:
+    doc.Plot.PlotToFile("D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects\A020027\\" + "test" + ".png")
 
-doc.Plot.PlotToFile("D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects\A020027\\" + "test" + ".pdf")
-#
-# oplot.Delete()
-# oplot = None
-# obj = doc.GetVariable("DBMOD")
-# print(obj)
+
 doc.Close(False)
 
