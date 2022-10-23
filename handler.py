@@ -9,6 +9,7 @@
 from os.path import join
 import win32com.client
 import printer
+import time
 
 
 def handle(config):
@@ -17,10 +18,14 @@ def handle(config):
         for dwg in config["dwgs"]:
             success = False
             message = ''
+            path = join(config["source_path"], folder)
+            file_path = join(path, dwg)
+            print(f"========================================")
+            print(f"{file_path} start")
+            acad = win32com.client.Dispatch("AutoCAD.Application")
+            doc = None
             try:
-                path = join(config["source_path"], folder)
-                acad = win32com.client.Dispatch("AutoCAD.Application")
-                doc = acad.ActiveDocument.Application.Documents.Open(f"{path}\\{dwg}")
+                doc = acad.ActiveDocument.Application.Documents.Open(file_path)
                 layout = doc.layouts.item('Model')
                 if config["explode"] is True:
                     pass
@@ -40,10 +45,12 @@ def handle(config):
                     doc.Close(False)
                 except:
                     pass
+            print(f"{file_path} end, {success}, {message}")
+            time.sleep(1)
                 # app.label_log_path.setText(f"{join(config['source_path'], folder)}, {success}, {message}")
 
 
-dummy_data = {'source_path': 'D:/事業體/05_可宸數位科技/00_Project/1111008_dwg2shp/projects', 'folders': ['A020027'],
+dummy_data = {'source_path': 'E:/chiao_study/projects/cad2shp', 'folders': ['A020027'],
               'dwgs': ['A020027_58年地形套疊圖.DWG', 'A020027_77年地形套疊圖.DWG', 'A020027_77年正射影像套疊圖.DWG', 'A020027_83年地形套疊圖.DWG',
                        'A020027_83年正射影像套疊圖.DWG', 'A020027_相關位置圖(107年地形圖).DWG'], 'explode': False, 'saveAs': True,
               'format': 'pdf', 'printer': 'DWG To PDF.pc3', 'papper': 'ISO_full_bleed_A2_(594.00_x_420.00_MM)',

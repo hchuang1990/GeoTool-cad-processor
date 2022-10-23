@@ -23,8 +23,8 @@ def exportFile(acad, doc, layout, path, file_name, config):
         underRight = None
         for entity in acad.ActiveDocument.ModelSpace:
             if entity.EntityName == 'AcDbPolyline' and entity.Area > 15500 and entity.Layer == "圖框":
-                print("Layer", entity.Layer)
-                print("Area", entity.Area)
+                # print("Layer", entity.Layer)
+                # print("Area", entity.Area)
                 lowerLeft, underRight = entity.GetBoundingBox()
 
         print("lowerLeft", [lowerLeft[0], lowerLeft[1]], "underRight", [underRight[0], underRight[1]])
