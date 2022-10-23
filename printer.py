@@ -3,10 +3,7 @@
 
 import win32com.client
 import pythoncom
-from os.path import join
-
-# printType = 'DWG To TIFF6.pc3'
-
+import os
 
 def APoint(x, y):
     """坐标点转化为浮点数"""
@@ -30,32 +27,41 @@ def exportFile(acad, doc, layout, path, file_name, config):
                 print("Area", entity.Area)
                 lowerLeft, underRight = entity.GetBoundingBox()
 
-        print("lowerLeft", [lowerLeft[0], lowerLeft[1]])
-        print("underRight", [underRight[0], underRight[1]])
+        print("lowerLeft", [lowerLeft[0], lowerLeft[1]], "underRight", [underRight[0], underRight[1]])
 
         # 打印機
-        layout.ConfigName = config["printer"]
-        # layout.CanonicalMediaName = 'ISO_full_bleed_A2_(594.00_x_420.00_MM)'
-        layout.CanonicalMediaName = config["papper"]  # 图纸大小这里选择A4
-        # layout.PaperUnits = 1  # 图纸单位，1为毫米
-        layout.PlotRotation = 0  # 横向打印
-        layout.StandardScale = 0  # 图纸打印比例
-        layout.CenterPlot = True  # 居中打印
-        layout.PlotWithPlotStyles = True  # 依照样式打印
-        layout.PlotHidden = False  # 隐藏图纸空间对象
-        layout.CenterPlot = True
-        layout.UseStandardScale = True  # 选用标准的比例
+        try:
+            layout.ConfigName = config["printer"]
+            # layout.CanonicalMediaName = 'ISO_full_bleed_A2_(594.00_x_420.00_MM)'
+            layout.CanonicalMediaName = config["papper"]  # 图纸大小这里选择A4
+            # layout.PaperUnits = 1  # 图纸单位，1为毫米
+            layout.PlotRotation = 0  # 横向打印
+            layout.StandardScale = 0  # 图纸打印比例
+            layout.CenterPlot = True  # 居中打印
+            layout.PlotWithPlotStyles = True  # 依照样式打印
+            layout.PlotHidden = False  # 隐藏图纸空间对象
+            layout.CenterPlot = True
+            layout.UseStandardScale = True  # 选用标准的比例
+        except Exception as ee:
+            print("ee", ee)
 
         po1 = APoint(lowerLeft[0] * Scale - 1, lowerLeft[1] * Scale)
         po2 = APoint(underRight[0] * Scale - 1 + 11880, underRight[1] * Scale + 8400)  # 左下点和右上点
         layout.SetWindowToPlot(po1, po2)
         # layout.PlotType = 3.5
-        # doc.Plot.PlotToFile(f"{folder}\\test.tiff")
-        doc.Plot.PlotToFile(join(path, "output_test", file_name.split(".")[0] + f".{config[format]}"))
+        output_path = os.path.join(path, "output_test")
+        try:
+            os.mkdir(output_path)
+        except:
+            pass
+        fileDir = f"{output_path}\\{file_name.split('.')[0]}.{config['format']}"
+        print("print file in Dir = ", fileDir)
+        doc.Plot.PlotToFile(fileDir)
         success = True
         message = 'Completed'
 
     except Exception as e:
+        print(e)
         success = False
         message = str(e)
 
