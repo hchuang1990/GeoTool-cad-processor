@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 from os import listdir
 from os.path import isfile, isdir, join
-import glob
+import json
 
 formats = ["dxf", "pdf", "tiff", "jpg"]
 printers = ["DWG To PDF", "DWG To TIFF6", "PublishToWeb JPG"]
@@ -56,6 +56,7 @@ class Ui_Dialog(object):
 
         self.btn_run = QtWidgets.QPushButton(dialog, text="執行")
         self.btn_run.setGeometry(QtCore.QRect(510, 29, 93, 25))
+        self.btn_run.clicked.connect(self.btn_run_clicked)
 
         self.btn_cancel = QtWidgets.QPushButton(dialog, text="取消")
         self.btn_cancel.setGeometry(QtCore.QRect(510, 60, 93, 25))
@@ -97,8 +98,8 @@ class Ui_Dialog(object):
         self.btn_definePrinter = QtWidgets.QPushButton(self.groupBox_2, text="連結")
         self.btn_definePrinter.setGeometry(QtCore.QRect(360, 161, 93, 25))
 
-        self.log_path = QtWidgets.QLabel(dialog, text=self.log_path)
-        self.log_path.setGeometry(QtCore.QRect(150, 688, 219, 15))
+        self.label_log_path = QtWidgets.QLabel(dialog, text=self.log_path)
+        self.label_log_path.setGeometry(QtCore.QRect(150, 688, 219, 15))
 
         self.label_7 = QtWidgets.QLabel(dialog, text="記錄檔保存位置")
         self.label_7.setGeometry(QtCore.QRect(20, 690, 105, 15))
@@ -107,6 +108,22 @@ class Ui_Dialog(object):
         self.btn_log_path.setGeometry(QtCore.QRect(400, 682, 93, 28))
 
         QtCore.QMetaObject.connectSlotsByName(dialog)
+
+    def btn_run_clicked(self):
+        print('btn_run_clicked, todo: get necessary params')
+        actionObject = {
+            "source_path": self.source_path,
+            "folders": folders,
+            "dwgs": dwgs,
+            "explode": self.cb_explode.isChecked(),
+            "saveAs": self.cb_saveAs.isChecked(),
+            "format": self.selectFormat.currentText(),
+            "printer": self.selectPrinter.currentText(),
+            "papper": self.selectPaper.currentText(),
+            "log_path": self.log_path
+        }
+        print(actionObject)
+        # print(json.dumps(actionObject))
 
     def btn_cancel_clicked(self):
         self.exit()
