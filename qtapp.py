@@ -19,6 +19,7 @@ papers = ["ISO_full_bleed_A2_(594.00_x_420.00_MM)", "ISO full bleed A3 (420.00 x
          "ISO full bleed A4 (297.00 x 210.00 MM)"]
 # dwgs = ["58年地形套疊圖.dwg", "77年正射影像套疊圖.dwg", "77年地形套疊圖.dwg", "83年正射影像套疊圖.dwg", "83年地形套疊圖.dwg", "相關位置圖(107年地形圖).dwg"]
 # folders = ["A020027", "A020028", "A020029", "A020030"]
+defaultPrinterPath=""
 printers = []
 folders = []
 dwgs = []
@@ -28,6 +29,15 @@ dwgCheck = []
 class Ui_Dialog(object):
 
     def setupUi(self, dialog):
+        global defaultPrinterPath
+        try:
+            f = open('plot.config')
+            text = f.read()
+            print(text)
+            defaultPrinterPath = text
+            f.close
+        except:
+            pass
         dialog.setFixedSize(632, 741)
         dialog.setWindowTitle("CAD批次作業 - Powered by ZackHuang")
         self.source_path = "E:chiao_studyprojectscad2shptestrun..."
@@ -158,23 +168,13 @@ class Ui_Dialog(object):
 
 
     def onPrinterPathClick(self):
-        global printers
+        global defaultPrinterPath
         try:
             folder_path_choose = QtWidgets.QFileDialog.getExistingDirectory(self.btn_definePrinter,
                                                                             "Choose Autodesk Plotter",
                                                                             "C:\\")  # start path
-
-            arr = listdir(folder_path_choose)
-            tmpPrinterArr = []
-            for f in arr:
-                if isfile(join(folder_path_choose, f)) and ".pc3" in f:
-                    tmpPrinterArr.append(f)
-            printers = tmpPrinterArr
-            print(tmpPrinterArr)
+            defaultPrinterPath = folder_path_choose
             self.updateSelectPrinter()
-            # ACADPref = doc.Application.preferences.Files
-            # originalValue = ACADPref.PrinterConfigPath \
-            #     = r"C:\Users\hhc\AppData\Roaming\Autodesk\AutoCAD 2014\R19.1\cht\Plotters"
         except:
             pass
 
@@ -236,6 +236,15 @@ class Ui_Dialog(object):
             pass
 
     def updateSelectPrinter(self):
+        global printers
+        global defaultPrinterPath
+        arr = listdir(defaultPrinterPath)
+        tmpPrinterArr = []
+        for f in arr:
+            if isfile(join(defaultPrinterPath, f)) and ".pc3" in f:
+                tmpPrinterArr.append(f)
+        printers = tmpPrinterArr
+        print(tmpPrinterArr)
         for printer in printers:
             self.selectPrinter.addItem(printer)
 
