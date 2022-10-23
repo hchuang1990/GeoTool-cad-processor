@@ -14,11 +14,12 @@ from os.path import isfile, isdir, join
 import handler
 
 formats = ["dxf", "pdf", "tiff", "jpg"]
-printers = ["DWG To PDF", "DWG To TIFF6", "PublishToWeb JPG"]
+# printers = ["DWG To PDF", "DWG To TIFF6", "PublishToWeb JPG"]
 papers = ["ISO_full_bleed_A2_(594.00_x_420.00_MM)", "ISO full bleed A3 (420.00 x 297.00 MM)",
          "ISO full bleed A4 (297.00 x 210.00 MM)"]
 # dwgs = ["58年地形套疊圖.dwg", "77年正射影像套疊圖.dwg", "77年地形套疊圖.dwg", "83年正射影像套疊圖.dwg", "83年地形套疊圖.dwg", "相關位置圖(107年地形圖).dwg"]
 # folders = ["A020027", "A020028", "A020029", "A020030"]
+printers = []
 folders = []
 dwgs = []
 folderCheck = []
@@ -102,6 +103,7 @@ class Ui_Dialog(object):
 
         self.btn_definePrinter = QtWidgets.QPushButton(self.groupBox_2, text="連結")
         self.btn_definePrinter.setGeometry(QtCore.QRect(360, 161, 93, 25))
+        self.btn_definePrinter.clicked.connect(self.onPrinterPathClick)
 
         self.label_log_path = QtWidgets.QLabel(dialog, text=self.log_path)
         self.label_log_path.setGeometry(QtCore.QRect(150, 688, 219, 15))
@@ -141,6 +143,28 @@ class Ui_Dialog(object):
 
     def exit(self):
         sys.exit(app.exec_())
+
+    def onPrinterPathClick(self):
+        global printers
+        try:
+            folder_path_choose = QtWidgets.QFileDialog.getExistingDirectory(self.btn_definePrinter,
+                                                                            "Choose Autodesk Plotter",
+                                                                            "C:\\")  # start path
+
+            arr = listdir(folder_path_choose)
+            tmpPrinterArr = []
+            for f in arr:
+                if isfile(join(folder_path_choose, f)) and ".pc3" in f:
+                    tmpPrinterArr.append(f)
+            printers = tmpPrinterArr
+            print(tmpPrinterArr)
+            self.updateSelectPrinter()
+            # ACADPref = doc.Application.preferences.Files
+            # originalValue = ACADPref.PrinterConfigPath \
+            #     = r"C:\Users\hhc\AppData\Roaming\Autodesk\AutoCAD 2014\R19.1\cht\Plotters"
+        except:
+            pass
+
 
     def onSourceBtnClick(self):
         try:
