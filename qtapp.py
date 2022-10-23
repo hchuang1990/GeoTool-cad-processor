@@ -138,7 +138,7 @@ class Ui_Dialog(object):
         self.label_12.setGeometry(QtCore.QRect(41, 150, 91, 16))
 
         self.btn_definePrinter = QtWidgets.QPushButton(self.groupBox_2, text="連結")
-        self.btn_definePrinter.setGeometry(QtCore.QRect(360, 190, 93, 25))
+        self.btn_definePrinter.setGeometry(QtCore.QRect(360, 188, 93, 25))
         self.btn_definePrinter.clicked.connect(self.onPrinterPathClick)
 
         self.label_log_path = QtWidgets.QLabel(dialog, text=self.log_path)
