@@ -1,2 +1,4 @@
 pypiwin32==223
 easygui==0.98.3
+PyQt5
+PyQt5-stubs==5.15.6.0
