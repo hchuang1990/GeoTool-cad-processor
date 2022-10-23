@@ -115,8 +115,9 @@ class Ui_Dialog(object):
         QtCore.QMetaObject.connectSlotsByName(dialog)
 
     def btn_run_clicked(self):
-        print('btn_run_clicked, todo: get necessary params')
-        print('listWidget_folder.selectedItems',self.listWidget_folder.selectedItems())
+        if len(folderCheck) is 0 or len(dwgCheck) is 0:
+            self.windowAlert(title="系統提醒", message="請選取有效的資料")
+            return
         actionObject = {
             "source_path": self.source_path,
             "folders": folderCheck,
@@ -142,8 +143,6 @@ class Ui_Dialog(object):
 
     def onSourceBtnClick(self):
         try:
-            global folders
-            global dwgs
             folder_path_choose = QtWidgets.QFileDialog.getExistingDirectory(self.btn_choose_folder,
                                                                             "Open folder",
                                                                             "./")  # start path
@@ -152,52 +151,51 @@ class Ui_Dialog(object):
                 self.windowAlert(title="系統提醒", message="取消選擇")
                 return
 
-            # update important variable: source_path, folders, files
+            # update text and folder list
             self.source_path = folder_path_choose
-            arr = listdir(folder_path_choose)
-            tmpFolderArr = []
-            for f in arr:
-                if isdir(join(folder_path_choose, f)):
-                    tmpFolderArr.append(f)
-            print("tmpFolderArr", tmpFolderArr)
-
-            tmpFileArr = []
-            for folder in tmpFolderArr:
-                arr = listdir(join(folder_path_choose, folder))
-                for f in arr:
-                    if isfile(join(folder_path_choose, folder, f)) and ".DWG" in f:
-                        tmpFileArr.append(f)
-            print("tmpFileArr", tmpFileArr)
-
-            if len(tmpFileArr) is 0 or len(tmpFolderArr) is 0:
-                self.windowAlert(title="系統提醒", message="無有效資料夾或檔案")
-                return
-
-            folders = tmpFolderArr
-            dwgs = tmpFileArr
-
-            # update ui
-            self.label_source_path.setText(folder_path_choose)
+            self.label_source_path.setText(self.source_path)
             self.updateFolderList()
-            self.updateDwgList()
+
         except Exception as e:
             self.windowAlert(title="系統提醒", message=str(e))
 
     def updateFolderList(self):
-        self.listWidget_folder.clear()
-        for folder in folders:
-            item = QtWidgets.QListWidgetItem(folder)
-            item.setCheckState(QtCore.Qt.Checked)
-            self.listWidget_folder.addItem(item)
-        self.onFolderItemChanged()
+        global folders
+        try:
+            arr = listdir(self.source_path)
+            tmpFolderArr = []
+            for f in arr:
+                if isdir(join(self.source_path, f)):
+                    tmpFolderArr.append(f)
+            folders = tmpFolderArr
+            self.listWidget_folder.clear()
+            for folder in folders:
+                item = QtWidgets.QListWidgetItem(folder)
+                item.setCheckState(QtCore.Qt.Checked)
+                self.listWidget_folder.addItem(item)
+            self.onFolderItemChanged()
+        except:
+            pass
 
     def updateDwgList(self):
-        self.listWidget_dwg.clear()
-        for dwg in dwgs:
-            item = QtWidgets.QListWidgetItem(dwg)
-            item.setCheckState(QtCore.Qt.Checked)
-            self.listWidget_dwg.addItem(item)
-        self.onDwgItemChanged()
+        global dwgs
+        try:
+            tmpFileArr = []
+            for folder in folderCheck:
+                arr = listdir(join(self.source_path, folder))
+                for f in arr:
+                    if isfile(join(self.source_path, folder, f)) and ".DWG" in f:
+                        tmpFileArr.append(f)
+
+            dwgs = tmpFileArr
+            self.listWidget_dwg.clear()
+            for dwg in dwgs:
+                item = QtWidgets.QListWidgetItem(dwg)
+                item.setCheckState(QtCore.Qt.Checked)
+                self.listWidget_dwg.addItem(item)
+            self.onDwgItemChanged()
+        except:
+            pass
 
     def updateSelectPrinter(self):
         for printer in printers:
@@ -216,10 +214,13 @@ class Ui_Dialog(object):
 
     def onFolderItemChanged(self):
         global folderCheck
+        global dwgs
         folderCheck.clear()
         for index in range(self.listWidget_folder.count()):
             if self.listWidget_folder.item(index).checkState() == 2: # 2==checked
                 folderCheck.append(self.listWidget_folder.item(index).text())
+
+        self.updateDwgList()
 
     def onDwgItemChanged(self):
         global dwgCheck
@@ -232,8 +233,11 @@ class Ui_Dialog(object):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(dialog)
-    dialog.show()
+    try:
+        dialog = QtWidgets.QDialog()
+        ui = Ui_Dialog()
+        ui.setupUi(dialog)
+        dialog.show()
+    except Exception as e:
+        print(e)
     sys.exit(app.exec_())
