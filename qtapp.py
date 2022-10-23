@@ -244,14 +244,14 @@ class Ui_Dialog(object):
     def updateDwgList(self):
         global dwgs
         try:
-            tmpFileArr = []
+            tmpFileArr = set()
             for folder in folderCheck:
                 arr = listdir(join(self.source_path, folder))
                 for f in arr:
                     if isfile(join(self.source_path, folder, f)) and ".DWG" in f:
-                        tmpFileArr.append(f)
+                        tmpFileArr.add(f'%_{f.split("_")[1]}')
 
-            dwgs = tmpFileArr
+            dwgs = list(tmpFileArr)
             self.listWidget_dwg.clear()
             for dwg in dwgs:
                 item = QtWidgets.QListWidgetItem(dwg)

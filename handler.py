@@ -21,7 +21,8 @@ def handle(config):
             success = False
             message = ''
             path = join(config["source_path"], folder)
-            file_path = join(path, dwg)
+            file_name = f"{folder}_{dwg.split('_')[1]}"
+            file_path = join(path, file_name)
             print(f"========================================")
             print(f"{file_path} start")
             acad = win32com.client.Dispatch("AutoCAD.Application")
@@ -31,26 +32,26 @@ def handle(config):
                 layout = doc.layouts.item('Model')
                 if config["explode"] is True:
                     print(f"{file_path} run explode...")
-                    success, message = core.explode(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
+                    success, message = core.explode(acad=acad, layout=layout, doc=doc, path=path, file_name=file_name,
                                                           config=config)
                     pass
                 if config["adjust"] is True:
                     print(f"{file_path} run adjust...")
-                    success, message = core.adjust(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
+                    success, message = core.adjust(acad=acad, layout=layout, doc=doc, path=path, file_name=file_name,
                                                     config=config)
                     pass
                 if config["saveAs"] is True:
                     print(f"{file_path} run saveAs...")
                     if config["format"] == 'dwg':
-                        success, message = core.saveAsDwg(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
+                        success, message = core.saveAsDwg(acad=acad, layout=layout, doc=doc, path=path, file_name=file_name,
                                                           config=config)
                         pass
                     elif config["format"] == 'dxf':
-                        success, message = core.saveAsDxf(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
+                        success, message = core.saveAsDxf(acad=acad, layout=layout, doc=doc, path=path, file_name=file_name,
                                                           config=config)
                         pass
                     elif config["format"] == 'tiff' or config["format"] == 'pdf' or config["format"] == 'jpg':
-                        success, message = core.exportFile(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
+                        success, message = core.exportFile(acad=acad, layout=layout, doc=doc, path=path, file_name=file_name,
                                                            config=config)
                         pass
             except Exception as e:
