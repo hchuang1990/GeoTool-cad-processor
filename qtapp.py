@@ -139,7 +139,7 @@ class Ui_Dialog(object):
             "log_path": self.log_path
         }
         print(actionObject)
-        handler.handle(actionObject, self)
+        handler.handle(actionObject)
         # print(json.dumps(actionObject))
 
     def onOnFormatChanged(self, value):

@@ -13,7 +13,7 @@ import time
 
 
 def handle(config):
-    # print("config", config)
+    print("config", config)
     for folder in config["folders"]:
         for dwg in config["dwgs"]:
             success = False
@@ -54,9 +54,15 @@ def handle(config):
                 # app.label_log_path.setText(f"{join(config['source_path'], folder)}, {success}, {message}")
 
 
-dummy_data = {'source_path': 'E:/chiao_study/projects/cad2shp', 'folders': ['A020027'],
-              'dwgs': ['A020027_58年地形套疊圖.DWG', 'A020027_77年地形套疊圖.DWG', 'A020027_77年正射影像套疊圖.DWG', 'A020027_83年地形套疊圖.DWG',
-                       'A020027_83年正射影像套疊圖.DWG', 'A020027_相關位置圖(107年地形圖).DWG'], 'explode': False, 'saveAs': True,
-              'format': 'dxf', 'printer': 'DWG To PDF.pc3', 'papper': 'ISO_full_bleed_A2_(594.00_x_420.00_MM)',
-              'log_path': 'E:chiao_studyprojectscad2shptestrun...'}
-handle(dummy_data)
+# dummy_data = {'source_path': 'E:/chiao_study/projects/cad2shp', 'folders': ['A020027'],
+#               'dwgs': ['A020027_58年地形套疊圖.DWG', 'A020027_77年地形套疊圖.DWG', 'A020027_77年正射影像套疊圖.DWG', 'A020027_83年地形套疊圖.DWG',
+#                        'A020027_83年正射影像套疊圖.DWG', 'A020027_相關位置圖(107年地形圖).DWG'], 'explode': False, 'saveAs': True,
+#               'format': 'jpg', 'printer': 'PublishToWeb JPG.pc3', 'papper': 'ISO_full_bleed_A2_(594.00_x_420.00_MM)',
+#               'log_path': 'E:chiao_studyprojectscad2shptestrun...'}
+
+# {'source_path': 'E:/chiao_study/projects/cad2shp', 'folders': ['A020027'],
+#  'dwgs': ['A020027_58年地形套疊圖.DWG', 'A020027_77年地形套疊圖.DWG', 'A020027_77年正射影像套疊圖.DWG', 'A020027_83年地形套疊圖.DWG',
+#           'A020027_83年正射影像套疊圖.DWG', 'A020027_相關位置圖(107年地形圖).DWG'], 'explode': False, 'saveAs': True, 'format': 'dxf',
+#  'printer': '', 'papper': 'ISO_full_bleed_A2_(594.00_x_420.00_MM)',
+#  'log_path': 'E:chiao_studyprojectscad2shptestrun...'}
+# handle(dummy_data)

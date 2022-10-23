@@ -14,10 +14,6 @@ def APoint(x, y):
 def saveAsDwg(acad, doc, layout, path, file_name, config):
     try:
         output = get_dir(path, file_name, config)
-        try:
-            os.mkdir(output[0])
-        except:
-            pass
         print("print file in Dir = ", output[1])
         doc.SaveAs(output[1], 12)
         success = True
@@ -68,30 +64,27 @@ def exportFile(acad, doc, layout, path, file_name, config):
         print("lowerLeft", [lowerLeft[0], lowerLeft[1]], "underRight", [underRight[0], underRight[1]])
 
         # 打印機
+
+        layout.ConfigName = config["printer"]
         try:
-            layout.ConfigName = config["printer"]
-            # layout.CanonicalMediaName = 'ISO_full_bleed_A2_(594.00_x_420.00_MM)'
-            # layout.CanonicalMediaName = config["papper"]  # 图纸大小这里选择A4
-            # layout.PaperUnits = 1  # 图纸单位，1为毫米
-            layout.PlotRotation = 0  # 横向打印
-            layout.StandardScale = 0  # 图纸打印比例
-            layout.CenterPlot = True  # 居中打印
-            layout.PlotWithPlotStyles = True  # 依照样式打印
-            layout.PlotHidden = False  # 隐藏图纸空间对象
-            layout.CenterPlot = True
-            layout.UseStandardScale = True  # 选用标准的比例
+            layout.CanonicalMediaName = config["papper"]  # 图纸大小这里选择A4
         except Exception as ee:
-            print(ee)
+            pass
+        # layout.PaperUnits = 1  # 图纸单位，1为毫米
+        layout.PlotRotation = 0  # 横向打印
+        layout.StandardScale = 0  # 图纸打印比例
+        layout.CenterPlot = True  # 居中打印
+        layout.PlotWithPlotStyles = True  # 依照样式打印
+        layout.PlotHidden = False  # 隐藏图纸空间对象
+        layout.CenterPlot = True
+        layout.UseStandardScale = True  # 选用标准的比例
+
 
         po1 = APoint(lowerLeft[0] * Scale - 1, lowerLeft[1] * Scale)
         po2 = APoint(underRight[0] * Scale - 1 + 11880, underRight[1] * Scale + 8400)  # 左下点和右上点
         layout.SetWindowToPlot(po1, po2)
         # layout.PlotType = 3.5
         output = get_dir(path, file_name, config)
-        try:
-            os.mkdir(output[0])
-        except:
-            pass
         print("print file in Dir = ", output[1])
         doc.Plot.PlotToFile(output[1])
         success = True
@@ -108,4 +101,12 @@ def exportFile(acad, doc, layout, path, file_name, config):
 def get_dir(path, file_name, config):
     output_path = os.path.join(path, "output_test", config['format'])
     output_path_file = f"{output_path}\\{file_name.split('.')[0]}.{config['format']}"
+    try:
+        os.mkdir(os.path.join(path, "output_test"))
+    except:
+        pass
+    try:
+        os.mkdir(output_path)
+    except:
+        pass
     return [output_path, output_path_file]
