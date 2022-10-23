@@ -13,7 +13,7 @@ from os import listdir
 from os.path import isfile, isdir, join
 import handler
 
-formats = ["dxf", "pdf", "tiff", "jpg"]
+formats = ["dwg", "dxf", "pdf", "tiff", "jpg"]
 # printers = ["DWG To PDF", "DWG To TIFF6", "PublishToWeb JPG"]
 papers = ["ISO_full_bleed_A2_(594.00_x_420.00_MM)", "ISO full bleed A3 (420.00 x 297.00 MM)",
          "ISO full bleed A4 (297.00 x 210.00 MM)"]
@@ -87,6 +87,7 @@ class Ui_Dialog(object):
         self.selectFormat = QtWidgets.QComboBox(self.groupBox_2)
         self.selectFormat.setGeometry(QtCore.QRect(140, 120, 311, 21))
         self.updateSelectFormat()
+        self.selectFormat.currentTextChanged.connect(self.onOnFormatChanged)
 
         self.selectPrinter = QtWidgets.QComboBox(self.groupBox_2)
         self.selectPrinter.setGeometry(QtCore.QRect(140, 163, 201, 21))
@@ -97,6 +98,8 @@ class Ui_Dialog(object):
 
         self.cb_saveAs = QtWidgets.QCheckBox(self.groupBox_2, text="另存新檔")
         self.cb_saveAs.setGeometry(QtCore.QRect(20, 80, 85, 18))
+        self.cb_saveAs.clicked.connect(self.onSaveAsClick)
+        self.onSaveAsClick()
 
         self.label_12 = QtWidgets.QLabel(self.groupBox_2, text="格式")
         self.label_12.setGeometry(QtCore.QRect(41, 122, 91, 16))
@@ -120,7 +123,7 @@ class Ui_Dialog(object):
         if len(folderCheck) is 0 or len(dwgCheck) is 0:
             self.windowAlert(title="系統提醒", message="請選取有效的資料")
             return
-        if self.cb_saveAs.isChecked() :
+        if self.cb_saveAs.isChecked() and self.selectFormat in ["pdf", "tiff", "jpg"]:
             if self.selectPrinter.currentText() == '' or self.selectPaper.currentText()=='':
                 self.windowAlert(title="系統提醒", message="請選擇正確的存檔設定")
                 return
@@ -139,14 +142,21 @@ class Ui_Dialog(object):
         # handler.handle(actionObject, self)
         # print(json.dumps(actionObject))
 
-    def itemActivated_event(self, item):
-        print(item)
+    def onOnFormatChanged(self, value):
+        print('onOnFormatChanged', value)
+        self.selectPrinter.setEnabled(value in ["pdf", "tiff", "jpg"])
+        self.selectPaper.setEnabled(value in ["pdf", "tiff", "jpg"])
 
     def btn_cancel_clicked(self):
         self.exit()
 
     def exit(self):
         sys.exit(app.exec_())
+
+    def onSaveAsClick(self):
+        self.selectFormat.setEnabled(self.cb_saveAs.isChecked())
+        self.onOnFormatChanged(formats[0])
+
 
     def onPrinterPathClick(self):
         global printers
