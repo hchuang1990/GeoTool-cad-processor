@@ -11,6 +11,38 @@ def APoint(x, y):
     # 需要两个点的坐标
     return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_R8, (x, y))
 
+
+def explode(acad, doc, layout, path, file_name, config):
+    try:
+        # 炸裂
+        for entity in acad.ActiveDocument.ModelSpace:
+            name = entity.EntityName
+            if name == 'AcDbBlockReference':
+                entity.Explode()
+        # 點位校正
+        for entity in acad.ActiveDocument.ModelSpace:
+            name = entity.EntityName
+            if name == 'AcDbText':
+                if '房屋樓層註記' in entity.Layer:
+                    print(
+                        f'text: {entity.TextString} at {entity.InsertionPoint}, layer={entity.Layer}, Alignment = {entity.Alignment}')
+                    print('update for building')
+                    entity.Alignment = 0
+                if 'LDASHAP' in entity.Layer:
+                    print(
+                        f'text: {entity.TextString} at {entity.InsertionPoint}, layer={entity.Layer}, Alignment = {entity.Alignment}')
+                    print('update for lands')
+                    entity.Alignment = 0
+        success = True
+        message = 'Completed'
+    except Exception as e:
+        print(e)
+        success = False
+        message = str(e)
+
+    return success, message
+
+
 def saveAsDwg(acad, doc, layout, path, file_name, config):
     try:
         output = get_dir(path, file_name, config)
@@ -78,7 +110,6 @@ def exportFile(acad, doc, layout, path, file_name, config):
         layout.PlotHidden = False  # 隐藏图纸空间对象
         layout.CenterPlot = True
         layout.UseStandardScale = True  # 选用标准的比例
-
 
         po1 = APoint(lowerLeft[0] * Scale - 1, lowerLeft[1] * Scale)
         po2 = APoint(underRight[0] * Scale - 1 + 11880, underRight[1] * Scale + 8400)  # 左下点和右上点

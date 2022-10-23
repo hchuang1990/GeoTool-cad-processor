@@ -29,8 +29,12 @@ def handle(config):
                 doc = acad.ActiveDocument.Application.Documents.Open(file_path)
                 layout = doc.layouts.item('Model')
                 if config["explode"] is True:
+                    print(f"{file_path} run explode...")
+                    success, message = core.explode(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
+                                                          config=config)
                     pass
                 if config["saveAs"] is True:
+                    print(f"{file_path} run saveAs...")
                     if config["format"] == 'dwg':
                         success, message = core.saveAsDwg(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
                                                           config=config)
