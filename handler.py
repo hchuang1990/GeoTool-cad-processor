@@ -13,7 +13,8 @@ import time
 from datetime import datetime
 
 def handle(config):
-    print("config", config)
+    # print("config", config)
+    print(f"==================run===================")
     for folder in config["folders"]:
         for dwg in config["dwgs"]:
             start_time = datetime.now()
@@ -63,7 +64,7 @@ def handle(config):
             print(f"{file_path} end, {success}, {message}, time_consuming={end_time-start_time}")
             time.sleep(0.5)
                 # app.label_log_path.setText(f"{join(config['source_path'], folder)}, {success}, {message}")
-
+    print(f"==================completed===================")
 
 # dummy_data = {'source_path': 'E:/chiao_study/projects/cad2shp', 'folders': ['A020027'],
 #               'dwgs': ['A020027_58年地形套疊圖.DWG', 'A020027_77年地形套疊圖.DWG', 'A020027_77年正射影像套疊圖.DWG', 'A020027_83年地形套疊圖.DWG',

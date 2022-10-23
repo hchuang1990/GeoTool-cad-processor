@@ -153,16 +153,6 @@ class Ui_Dialog(object):
         QtCore.QMetaObject.connectSlotsByName(dialog)
 
     def btn_run_clicked(self):
-        if len(folderCheck) is 0 or len(dwgCheck) is 0:
-            self.windowAlert(title="系統提醒", message="請選取有效的資料")
-            return
-        if self.cb_saveAs.isChecked() and self.selectFormat in ["pdf", "tiff", "jpg"]:
-            if self.selectPrinter.currentText() == '' or self.selectPaper.currentText() == '':
-                self.windowAlert(title="系統提醒", message="請選擇正確的存檔設定")
-                return
-        if self.cb_saveAs.isChecked() is False or self.cb_explode.isChecked() is False or self.cb_adjust.isChecked() is False:
-            self.windowAlert(title="系統提醒", message="請至少選擇一個的動作")
-            return
         actionObject = {
             "source_path": self.source_path,
             "folders": folderCheck,
@@ -177,6 +167,16 @@ class Ui_Dialog(object):
             "adjust_direction": self.selectAdjust.currentIndex()
         }
         print(actionObject)
+        if len(folderCheck) is 0 or len(dwgCheck) is 0:
+            self.windowAlert(title="系統提醒", message="請選取有效的資料")
+            return
+        if self.cb_saveAs.isChecked() and self.selectFormat in ["pdf", "tiff", "jpg"]:
+            if self.selectPrinter.currentText() == '' or self.selectPaper.currentText() == '':
+                self.windowAlert(title="系統提醒", message="請選擇正確的存檔設定")
+                return
+        if self.cb_saveAs.isChecked() is False and self.cb_explode.isChecked() is False and self.cb_adjust.isChecked() is False:
+            self.windowAlert(title="系統提醒", message="請至少選擇一個的動作")
+            return
         handler.handle(actionObject)
         # print(json.dumps(actionObject))
 
