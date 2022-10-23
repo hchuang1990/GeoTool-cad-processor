@@ -120,6 +120,10 @@ class Ui_Dialog(object):
         if len(folderCheck) is 0 or len(dwgCheck) is 0:
             self.windowAlert(title="系統提醒", message="請選取有效的資料")
             return
+        if self.cb_saveAs.isChecked() :
+            if self.selectPrinter.currentText() == '' or self.selectPaper.currentText()=='':
+                self.windowAlert(title="系統提醒", message="請選擇正確的存檔設定")
+                return
         actionObject = {
             "source_path": self.source_path,
             "folders": folderCheck,
@@ -132,7 +136,7 @@ class Ui_Dialog(object):
             "log_path": self.log_path
         }
         print(actionObject)
-        handler.handle(actionObject, self)
+        # handler.handle(actionObject, self)
         # print(json.dumps(actionObject))
 
     def itemActivated_event(self, item):
