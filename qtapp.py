@@ -16,15 +16,16 @@ import handler
 formats = ["dwg", "dxf", "pdf", "tiff", "jpg"]
 # printers = ["DWG To PDF", "DWG To TIFF6", "PublishToWeb JPG"]
 papers = ["ISO_full_bleed_A2_(594.00_x_420.00_MM)", "ISO full bleed A3 (420.00 x 297.00 MM)",
-         "ISO full bleed A4 (297.00 x 210.00 MM)"]
+          "ISO full bleed A4 (297.00 x 210.00 MM)"]
 # dwgs = ["58年地形套疊圖.dwg", "77年正射影像套疊圖.dwg", "77年地形套疊圖.dwg", "83年正射影像套疊圖.dwg", "83年地形套疊圖.dwg", "相關位置圖(107年地形圖).dwg"]
 # folders = ["A020027", "A020028", "A020029", "A020030"]
-defaultPrinterPath=""
+defaultPrinterPath = ""
 printers = []
 folders = []
 dwgs = []
 folderCheck = []
 dwgCheck = []
+
 
 class Ui_Dialog(object):
 
@@ -38,7 +39,7 @@ class Ui_Dialog(object):
             f.close
         except:
             pass
-        dialog.setFixedSize(632, 741)
+        dialog.setFixedSize(632, 800)
         dialog.setWindowTitle("CAD批次作業 - Powered by ZackHuang")
         self.source_path = "E:chiao_studyprojectscad2shptestrun..."
         self.log_path = "E:chiao_studyprojectscad2shptestrun..."
@@ -65,7 +66,6 @@ class Ui_Dialog(object):
         self.label_source_path = QtWidgets.QLabel(self.groupBox, text=self.source_path)
         self.label_source_path.setGeometry(QtCore.QRect(70, 30, 219, 15))
 
-
         self.btn_choose_folder = QtWidgets.QPushButton(self.groupBox, text="選擇")
         self.btn_choose_folder.setGeometry(QtCore.QRect(360, 28, 93, 25))
         self.btn_choose_folder.clicked.connect(self.onSourceBtnClick)
@@ -79,53 +79,76 @@ class Ui_Dialog(object):
         self.btn_cancel.clicked.connect(self.btn_cancel_clicked)
 
         self.groupBox_2 = QtWidgets.QGroupBox(dialog, title="動作")
-        self.groupBox_2.setGeometry(QtCore.QRect(20, 420, 471, 251))
+        self.groupBox_2.setGeometry(QtCore.QRect(20, 420, 471, 270))
+
+        self.groupBox_3 = QtWidgets.QGroupBox(dialog, title="記錄檔")
+        self.groupBox_3.setGeometry(QtCore.QRect(20, 700, 471, 80))
 
         self.cb_explode = QtWidgets.QCheckBox(self.groupBox_2, text="炸裂")
         self.cb_explode.setGeometry(QtCore.QRect(20, 37, 85, 18))
 
-        self.btn_explode_logic = QtWidgets.QPushButton(self.groupBox_2, text="設定邏輯")
-        self.btn_explode_logic.setGeometry(QtCore.QRect(140, 30, 311, 27))
+        self.cb_adjust = QtWidgets.QCheckBox(self.groupBox_2, text="點校正")
+        self.cb_adjust.setGeometry(QtCore.QRect(20, 77, 200, 18))
+
+        self.selectAdjust = QtWidgets.QComboBox(self.groupBox_2)
+        self.selectAdjust.setGeometry(QtCore.QRect(140, 77, 311, 21))
+        self.selectAdjust.addItems(
+            ["acAlignmentLeft",
+             "acAlignmentCenter",
+             "acAlignmentRight",
+             "acAlignmentAligned",
+             "acAlignmentMiddle",
+             "acAlignmentFit",
+             "acAlignmentTopLeft",
+             "acAlignmentTopCenter",
+             "acAlignmentTopRight",
+             "acAlignmentMiddleLeft",
+             "acAlignmentMiddleCenter",
+             "acAlignmentMiddleRight",
+             "acAlignmentBottomLeft",
+             "acAlignmentBottomCenter",
+             "acAlignmentBottomRight"]
+        )
 
         self.selectPaper = QtWidgets.QComboBox(self.groupBox_2)
-        self.selectPaper.setGeometry(QtCore.QRect(140, 203, 311, 21))
+        self.selectPaper.setGeometry(QtCore.QRect(140, 230, 311, 21))
         self.updateSelectPaper()
 
         self.label_11 = QtWidgets.QLabel(self.groupBox_2, text="紙張大小")
-        self.label_11.setGeometry(QtCore.QRect(40, 203, 91, 16))
+        self.label_11.setGeometry(QtCore.QRect(40, 230, 91, 16))
 
         self.selectFormat = QtWidgets.QComboBox(self.groupBox_2)
-        self.selectFormat.setGeometry(QtCore.QRect(140, 120, 311, 21))
+        self.selectFormat.setGeometry(QtCore.QRect(140, 150, 311, 21))
         self.updateSelectFormat()
         self.selectFormat.currentTextChanged.connect(self.onOnFormatChanged)
 
         self.selectPrinter = QtWidgets.QComboBox(self.groupBox_2)
-        self.selectPrinter.setGeometry(QtCore.QRect(140, 163, 201, 21))
+        self.selectPrinter.setGeometry(QtCore.QRect(140, 190, 201, 21))
         self.updateSelectPrinter()
 
         self.label_10 = QtWidgets.QLabel(self.groupBox_2, text="印表機")
-        self.label_10.setGeometry(QtCore.QRect(40, 163, 91, 16))
+        self.label_10.setGeometry(QtCore.QRect(40, 190, 91, 16))
 
         self.cb_saveAs = QtWidgets.QCheckBox(self.groupBox_2, text="另存新檔")
-        self.cb_saveAs.setGeometry(QtCore.QRect(20, 80, 85, 18))
+        self.cb_saveAs.setGeometry(QtCore.QRect(20, 117, 85, 18))
         self.cb_saveAs.clicked.connect(self.onSaveAsClick)
         self.onSaveAsClick()
 
         self.label_12 = QtWidgets.QLabel(self.groupBox_2, text="格式")
-        self.label_12.setGeometry(QtCore.QRect(41, 122, 91, 16))
+        self.label_12.setGeometry(QtCore.QRect(41, 150, 91, 16))
 
         self.btn_definePrinter = QtWidgets.QPushButton(self.groupBox_2, text="連結")
-        self.btn_definePrinter.setGeometry(QtCore.QRect(360, 161, 93, 25))
+        self.btn_definePrinter.setGeometry(QtCore.QRect(360, 190, 93, 25))
         self.btn_definePrinter.clicked.connect(self.onPrinterPathClick)
 
         self.label_log_path = QtWidgets.QLabel(dialog, text=self.log_path)
-        self.label_log_path.setGeometry(QtCore.QRect(150, 688, 219, 15))
+        self.label_log_path.setGeometry(QtCore.QRect(120, 740, 219, 15))
 
-        self.label_7 = QtWidgets.QLabel(dialog, text="記錄檔保存位置")
-        self.label_7.setGeometry(QtCore.QRect(20, 690, 105, 15))
+        self.label_7 = QtWidgets.QLabel(dialog, text="保存位置")
+        self.label_7.setGeometry(QtCore.QRect(40, 740, 105, 15))
 
         self.btn_log_path = QtWidgets.QPushButton(dialog, text="變更")
-        self.btn_log_path.setGeometry(QtCore.QRect(400, 682, 93, 28))
+        self.btn_log_path.setGeometry(QtCore.QRect(380, 730, 93, 28))
 
         QtCore.QMetaObject.connectSlotsByName(dialog)
 
@@ -134,9 +157,12 @@ class Ui_Dialog(object):
             self.windowAlert(title="系統提醒", message="請選取有效的資料")
             return
         if self.cb_saveAs.isChecked() and self.selectFormat in ["pdf", "tiff", "jpg"]:
-            if self.selectPrinter.currentText() == '' or self.selectPaper.currentText()=='':
+            if self.selectPrinter.currentText() == '' or self.selectPaper.currentText() == '':
                 self.windowAlert(title="系統提醒", message="請選擇正確的存檔設定")
                 return
+        if self.cb_saveAs.isChecked() is False or self.cb_explode.isChecked() is False or self.cb_adjust.isChecked() is False:
+            self.windowAlert(title="系統提醒", message="請至少選擇一個的動作")
+            return
         actionObject = {
             "source_path": self.source_path,
             "folders": folderCheck,
@@ -146,7 +172,9 @@ class Ui_Dialog(object):
             "format": self.selectFormat.currentText(),
             "printer": self.selectPrinter.currentText(),
             "papper": self.selectPaper.currentText(),
-            "log_path": self.log_path
+            "log_path": self.log_path,
+            "adjust": self.cb_adjust.isChecked(),
+            "adjust_direction": self.selectAdjust.currentIndex()
         }
         print(actionObject)
         handler.handle(actionObject)
@@ -166,7 +194,6 @@ class Ui_Dialog(object):
         self.selectFormat.setEnabled(self.cb_saveAs.isChecked())
         self.onOnFormatChanged(formats[0])
 
-
     def onPrinterPathClick(self):
         global defaultPrinterPath
         try:
@@ -177,7 +204,6 @@ class Ui_Dialog(object):
             self.updateSelectPrinter()
         except:
             pass
-
 
     def onSourceBtnClick(self):
         try:
@@ -264,7 +290,7 @@ class Ui_Dialog(object):
         global dwgs
         folderCheck.clear()
         for index in range(self.listWidget_folder.count()):
-            if self.listWidget_folder.item(index).checkState() == 2: # 2==checked
+            if self.listWidget_folder.item(index).checkState() == 2:  # 2==checked
                 folderCheck.append(self.listWidget_folder.item(index).text())
 
         self.updateDwgList()
@@ -275,7 +301,6 @@ class Ui_Dialog(object):
         for index in range(self.listWidget_dwg.count()):
             if self.listWidget_dwg.item(index).checkState() == 2:  # 2==checked
                 dwgCheck.append(self.listWidget_dwg.item(index).text())
-
 
 
 if __name__ == "__main__":

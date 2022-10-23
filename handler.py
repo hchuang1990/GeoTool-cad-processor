@@ -33,6 +33,11 @@ def handle(config):
                     success, message = core.explode(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
                                                           config=config)
                     pass
+                if config["adjust"] is True:
+                    print(f"{file_path} run adjust...")
+                    success, message = core.adjust(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
+                                                    config=config)
+                    pass
                 if config["saveAs"] is True:
                     print(f"{file_path} run saveAs...")
                     if config["format"] == 'dwg':

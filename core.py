@@ -19,20 +19,6 @@ def explode(acad, doc, layout, path, file_name, config):
             name = entity.EntityName
             if name == 'AcDbBlockReference':
                 entity.Explode()
-        # 點位校正
-        for entity in acad.ActiveDocument.ModelSpace:
-            name = entity.EntityName
-            if name == 'AcDbText':
-                if '房屋樓層註記' in entity.Layer:
-                    print(
-                        f'text: {entity.TextString} at {entity.InsertionPoint}, layer={entity.Layer}, Alignment = {entity.Alignment}')
-                    print('update for building')
-                    entity.Alignment = 0
-                if 'LDASHAP' in entity.Layer:
-                    print(
-                        f'text: {entity.TextString} at {entity.InsertionPoint}, layer={entity.Layer}, Alignment = {entity.Alignment}')
-                    print('update for lands')
-                    entity.Alignment = 0
         success = True
         message = 'Completed'
     except Exception as e:
@@ -42,6 +28,28 @@ def explode(acad, doc, layout, path, file_name, config):
 
     return success, message
 
+def adjust(acad, doc, layout, path, file_name, config):
+    try:
+        # 點位校正
+        for entity in acad.ActiveDocument.ModelSpace:
+            name = entity.EntityName
+            if name == 'AcDbText':
+                if '房屋樓層註記' in entity.Layer:
+                    print(
+                        f'update for building point: {entity.TextString} at {entity.InsertionPoint}, layer={entity.Layer}, Alignment = {entity.Alignment}')
+                    entity.Alignment = config["adjust_direction"]
+                if 'LDASHAP' in entity.Layer:
+                    print(
+                        f'update for lands point: {entity.TextString} at {entity.InsertionPoint}, layer={entity.Layer}, Alignment = {entity.Alignment}')
+                    entity.Alignment = config["adjust_direction"]
+        success = True
+        message = 'Completed'
+    except Exception as e:
+        print(e)
+        success = False
+        message = str(e)
+
+    return success, message
 
 def saveAsDwg(acad, doc, layout, path, file_name, config):
     try:
