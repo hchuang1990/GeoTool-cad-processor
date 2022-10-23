@@ -3,6 +3,7 @@
 
 import win32com.client
 import pythoncom
+from os.path import join
 
 printType = 'DWG To TIFF6.pc3'
 
@@ -13,13 +14,14 @@ def APoint(x, y):
     return win32com.client.VARIANT(pythoncom.VT_ARRAY | pythoncom.VT_R8, (x, y))
 
 
-def convert(folder):
+def convert(folder, file, config):
     success = False
     message = ''
+    print(join(folder, file))
     try:
         acad = win32com.client.Dispatch("AutoCAD.Application")
         # 文件
-        doc = acad.ActiveDocument.Application.Documents.Open(f"{folder}\\A020027_83年地形套疊圖.dwg")
+        doc = acad.ActiveDocument.Application.Documents.Open(f"{folder}\\{file}")
         # 圖紙
         layout = doc.layouts.item('Model')
 
@@ -43,7 +45,7 @@ def convert(folder):
         # 打印機
         layout.ConfigName = printType
         # layout.CanonicalMediaName = 'ISO_full_bleed_A2_(594.00_x_420.00_MM)'
-        layout.CanonicalMediaName = 'Sun_Hi-Res_(1280.00_x_1600.00_Pixels)'  # 图纸大小这里选择A4
+        layout.CanonicalMediaName = config["paper"]  # 图纸大小这里选择A4
         # layout.PaperUnits = 1  # 图纸单位，1为毫米
         layout.PlotRotation = 0  # 横向打印
         layout.StandardScale = 0  # 图纸打印比例
@@ -69,4 +71,5 @@ def convert(folder):
             doc.Close(False)
         except:
             pass
+    print(success, message)
     return success, message

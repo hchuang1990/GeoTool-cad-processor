@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 import sys
 from os import listdir
 from os.path import isfile, isdir, join
-import json
+import handler
 
 formats = ["dxf", "pdf", "tiff", "jpg"]
 printers = ["DWG To PDF", "DWG To TIFF6", "PublishToWeb JPG"]
@@ -130,6 +130,7 @@ class Ui_Dialog(object):
             "log_path": self.log_path
         }
         print(actionObject)
+        handler.handle(actionObject, self)
         # print(json.dumps(actionObject))
 
     def itemActivated_event(self, item):
@@ -148,7 +149,7 @@ class Ui_Dialog(object):
                                                                             "./")  # start path
             print(folder_path_choose)
             if folder_path_choose == "":
-                self.windowAlert(title="系統提醒", message="取消選擇")
+                # self.windowAlert(title="系統提醒", message="取消選擇")
                 return
 
             # update text and folder list
