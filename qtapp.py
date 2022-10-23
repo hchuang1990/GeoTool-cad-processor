@@ -23,13 +23,13 @@ folders = []
 dwgs = []
 
 class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.resize(632, 741)
-        Dialog.setWindowTitle("CAD批次作業")
+    def setupUi(self, dialog):
+        dialog.setFixedSize(632, 741)
+        dialog.setWindowTitle("CAD批次作業 - Powered by ZackHuang")
         self.source_path = "E:chiao_studyprojectscad2shptestrun..."
         self.log_path = "E:chiao_studyprojectscad2shptestrun..."
 
-        self.groupBox = QtWidgets.QGroupBox(Dialog, title="來源")
+        self.groupBox = QtWidgets.QGroupBox(dialog, title="來源")
         self.groupBox.setGeometry(QtCore.QRect(20, 20, 471, 391))
         self.label = QtWidgets.QLabel(self.groupBox, text="路徑")
         self.label.setGeometry(QtCore.QRect(20, 30, 58, 16))
@@ -54,14 +54,14 @@ class Ui_Dialog(object):
         self.btn_choose_folder.setGeometry(QtCore.QRect(360, 28, 93, 25))
         self.btn_choose_folder.clicked.connect(self.onSourceBtnClick)
 
-        self.btn_run = QtWidgets.QPushButton(Dialog, text="執行")
+        self.btn_run = QtWidgets.QPushButton(dialog, text="執行")
         self.btn_run.setGeometry(QtCore.QRect(510, 29, 93, 25))
 
-        self.btn_cancel = QtWidgets.QPushButton(Dialog, text="取消")
+        self.btn_cancel = QtWidgets.QPushButton(dialog, text="取消")
         self.btn_cancel.setGeometry(QtCore.QRect(510, 60, 93, 25))
         self.btn_cancel.clicked.connect(self.btn_cancel_clicked)
 
-        self.groupBox_2 = QtWidgets.QGroupBox(Dialog, title="動作")
+        self.groupBox_2 = QtWidgets.QGroupBox(dialog, title="動作")
         self.groupBox_2.setGeometry(QtCore.QRect(20, 420, 471, 251))
 
         self.cb_explode = QtWidgets.QCheckBox(self.groupBox_2, text="炸裂")
@@ -97,16 +97,16 @@ class Ui_Dialog(object):
         self.btn_definePrinter = QtWidgets.QPushButton(self.groupBox_2, text="連結")
         self.btn_definePrinter.setGeometry(QtCore.QRect(360, 161, 93, 25))
 
-        self.log_path = QtWidgets.QLabel(Dialog, text=self.log_path)
+        self.log_path = QtWidgets.QLabel(dialog, text=self.log_path)
         self.log_path.setGeometry(QtCore.QRect(150, 688, 219, 15))
 
-        self.label_7 = QtWidgets.QLabel(Dialog, text="記錄檔保存位置")
+        self.label_7 = QtWidgets.QLabel(dialog, text="記錄檔保存位置")
         self.label_7.setGeometry(QtCore.QRect(20, 690, 105, 15))
 
-        self.btn_log_path = QtWidgets.QPushButton(Dialog, text="變更")
+        self.btn_log_path = QtWidgets.QPushButton(dialog, text="變更")
         self.btn_log_path.setGeometry(QtCore.QRect(400, 682, 93, 28))
 
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(dialog)
 
     def btn_cancel_clicked(self):
         self.exit()
