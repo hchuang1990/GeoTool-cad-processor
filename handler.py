@@ -10,12 +10,13 @@ from os.path import join
 import win32com.client
 import core
 import time
-
+from datetime import datetime
 
 def handle(config):
     print("config", config)
     for folder in config["folders"]:
         for dwg in config["dwgs"]:
+            start_time = datetime.now()
             success = False
             message = ''
             path = join(config["source_path"], folder)
@@ -49,7 +50,8 @@ def handle(config):
                     doc.Close(False)
                 except:
                     pass
-            print(f"{file_path} end, {success}, {message}")
+            end_time = datetime.now()
+            print(f"{file_path} end, {success}, {message}, time_consuming={end_time-start_time}")
             time.sleep(0.5)
                 # app.label_log_path.setText(f"{join(config['source_path'], folder)}, {success}, {message}")
 
