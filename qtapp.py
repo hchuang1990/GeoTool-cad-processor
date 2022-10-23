@@ -143,7 +143,6 @@ class Ui_Dialog(object):
         # print(json.dumps(actionObject))
 
     def onOnFormatChanged(self, value):
-        print('onOnFormatChanged', value)
         self.selectPrinter.setEnabled(value in ["pdf", "tiff", "jpg"])
         self.selectPaper.setEnabled(value in ["pdf", "tiff", "jpg"])
 
