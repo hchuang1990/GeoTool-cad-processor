@@ -31,6 +31,8 @@ def handle(config):
                     pass
                 if config["saveAs"] is True:
                     if config["format"] == 'dwg':
+                        success, message = core.saveAsDwg(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
+                                                          config=config)
                         pass
                     elif config["format"] == 'dxf':
                         success, message = core.saveAsDxf(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
