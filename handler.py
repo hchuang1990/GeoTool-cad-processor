@@ -50,7 +50,7 @@ def handle(config):
                 except:
                     pass
             print(f"{file_path} end, {success}, {message}")
-            time.sleep(1)
+            time.sleep(0.5)
                 # app.label_log_path.setText(f"{join(config['source_path'], folder)}, {success}, {message}")
 
 
