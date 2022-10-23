@@ -8,7 +8,7 @@
 # from qtapp import Ui_Dialog
 from os.path import join
 import win32com.client
-import printer
+import core
 import time
 
 
@@ -33,10 +33,12 @@ def handle(config):
                     if config["format"] == 'dwg':
                         pass
                     elif config["format"] == 'dxf':
+                        success, message = core.saveAsDxf(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
+                                                          config=config)
                         pass
                     elif config["format"] == 'tiff' or config["format"] == 'pdf' or config["format"] == 'jpg':
-                        success, message = printer.exportFile(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
-                                                              config=config)
+                        success, message = core.exportFile(acad=acad, layout=layout, doc=doc, path=path, file_name=dwg,
+                                                           config=config)
                         pass
             except Exception as e:
                 print(e)
@@ -53,6 +55,6 @@ def handle(config):
 dummy_data = {'source_path': 'E:/chiao_study/projects/cad2shp', 'folders': ['A020027'],
               'dwgs': ['A020027_58年地形套疊圖.DWG', 'A020027_77年地形套疊圖.DWG', 'A020027_77年正射影像套疊圖.DWG', 'A020027_83年地形套疊圖.DWG',
                        'A020027_83年正射影像套疊圖.DWG', 'A020027_相關位置圖(107年地形圖).DWG'], 'explode': False, 'saveAs': True,
-              'format': 'pdf', 'printer': 'DWG To PDF.pc3', 'papper': 'ISO_full_bleed_A2_(594.00_x_420.00_MM)',
+              'format': 'dxf', 'printer': 'DWG To PDF.pc3', 'papper': 'ISO_full_bleed_A2_(594.00_x_420.00_MM)',
               'log_path': 'E:chiao_studyprojectscad2shptestrun...'}
 handle(dummy_data)
