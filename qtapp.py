@@ -41,8 +41,8 @@ class Ui_Dialog(object):
             pass
         dialog.setFixedSize(632, 800)
         dialog.setWindowTitle("CAD批次作業 - Powered by ZackHuang")
-        self.source_path = "E:chiao_studyprojectscad2shptestrun..."
-        self.log_path = "E:chiao_studyprojectscad2shptestrun..."
+        self.source_path = "D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects"
+        self.log_path = "D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects"
 
         self.groupBox = QtWidgets.QGroupBox(dialog, title="來源")
         self.groupBox.setGeometry(QtCore.QRect(20, 20, 471, 391))
