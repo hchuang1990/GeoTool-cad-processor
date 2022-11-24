@@ -14,6 +14,7 @@ from datetime import datetime
 
 def handle(config):
     # print("config", config)
+    acad = win32com.client.Dispatch("AutoCAD.Application")
     print(f"==================run===================")
     for folder in config["folders"]:
         for dwg in config["dwgs"]:
@@ -25,11 +26,21 @@ def handle(config):
             file_path = join(path, file_name)
             print(f"========================================")
             print(f"{file_path} start")
-            acad = win32com.client.Dispatch("AutoCAD.Application")
-            doc = None
             try:
-                doc = acad.ActiveDocument.Application.Documents.Open(file_path)
-                layout = doc.layouts.item('Model')
+                opened = False
+                doc = None
+                while opened is False:
+                    try:
+                        doc = acad.ActiveDocument.Application.Documents.Open(file_path)
+                        layout = doc.layouts.item('Model')
+                        opened = True
+                    except Exception as e:
+                        print(f"open {file_path} error, retry after 1 second")
+                        try:
+                            doc.Close(False)
+                        except:
+                            pass
+                        time.sleep(1)
                 if config["explode"] is True:
                     print(f"{file_path} run explode...")
                     success, message = core.explode(acad=acad, layout=layout, doc=doc, path=path, file_name=file_name,
@@ -54,16 +65,20 @@ def handle(config):
                         success, message = core.exportFile(acad=acad, layout=layout, doc=doc, path=path, file_name=file_name,
                                                            config=config)
                         pass
+                    elif config["format"] == 'dgn':
+                        success, message = core.exportDgn(acad=acad, layout=layout, doc=doc, path=path,
+                                                           file_name=file_name,
+                                                           config=config)
             except Exception as e:
                 print(e)
             finally:
                 try:
+                    time.sleep(0.5)
                     doc.Close(False)
                 except:
                     pass
             end_time = datetime.now()
             print(f"{file_path} end, {success}, {message}, time_consuming={end_time-start_time}")
-            time.sleep(0.5)
                 # app.label_log_path.setText(f"{join(config['source_path'], folder)}, {success}, {message}")
     print(f"==================completed===================")
 

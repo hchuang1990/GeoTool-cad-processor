@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import time
+from os.path import join
 
 import win32com.client
 import pythoncom
@@ -136,6 +138,16 @@ def exportFile(acad, doc, layout, path, file_name, config):
 
     return success, message
 
+def exportDgn(acad, doc, layout, path, file_name, config):
+    try:
+        output = get_dir(path, file_name, config)
+        doc.SendCommand("-DGNEXPORT"+chr(13)+"V8"+chr(13)+f"{output[1]}"+chr(13)+"Y"+chr(13)+"Y"+chr(13)+"M"+chr(13)+chr(13)+chr(13))
+        success = True
+        message = 'Completed'
+    except Exception as e:
+        success = False
+        message = str(e)
+    return success, message
 
 def get_dir(path, file_name, config):
     output_path = os.path.join(path, "output_test", config['format'])
