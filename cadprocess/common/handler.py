@@ -8,7 +8,7 @@
 # from qtapp import Ui_Dialog
 from os.path import join
 import win32com.client
-import core
+import cadprocess.common.core as core
 import time
 from datetime import datetime
 

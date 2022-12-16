@@ -2,3 +2,6 @@
 venv/
 build/
 dist/
+/.vscode/launch.json
+/cadprocess/common/__pycache__/core.cpython-39.pyc
+/cadprocess/common/__pycache__/handler.cpython-39.pyc

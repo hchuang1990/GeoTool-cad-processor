@@ -11,7 +11,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 import sys
 from os import listdir
 from os.path import isfile, isdir, join
-import handler
+from cadprocess.common import handler
+
+# import cadprocess.common.handler as handler
+# from cadprocess.common.handler import handler
+# import cadprocess.common.handler as handler
 
 formats = ["dwg", "dxf", "pdf", "tiff", "jpg", "dgn"]
 # printers = ["DWG To PDF", "DWG To TIFF6", "PublishToWeb JPG"]
@@ -32,7 +36,7 @@ class Ui_Dialog(object):
     def setupUi(self, dialog):
         global defaultPrinterPath
         try:
-            f = open('plot.config')
+            f = open('cadprocess/config/plot.config')
             text = f.read()
             print(text)
             defaultPrinterPath = text
@@ -116,6 +120,7 @@ class Ui_Dialog(object):
 
         self.label_11 = QtWidgets.QLabel(self.groupBox_2, text="紙張大小")
         self.label_11.setGeometry(QtCore.QRect(40, 230, 91, 16))
+
 
         self.selectFormat = QtWidgets.QComboBox(self.groupBox_2)
         self.selectFormat.setGeometry(QtCore.QRect(140, 150, 311, 21))
