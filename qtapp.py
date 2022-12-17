@@ -43,7 +43,8 @@ logger.addHandler(ch)
 logger.addHandler(fh)
     
 
-formats = ["dwg", "dxf", "pdf", "tiff", "jpg", "dgn"]
+# formats = ["dwg", "dxf", "pdf", "tiff", "jpg", "dgn"]
+formats = ["dwg", "dxf", "tiff", "jpg", "dgn"]
 printers = ["DWG To PDF", "DWG To TIFF6", "PublishToWeb JPG"]
 papers = ["ISO_full_bleed_A2_(594.00_x_420.00_MM)", "ISO full bleed A3 (420.00 x 297.00 MM)",
           "ISO full bleed A4 (297.00 x 210.00 MM)"]
@@ -71,7 +72,7 @@ class Ui_Dialog(object):
             f.close
             logger.info('Finished reading plot.config file.')
         except Exception as e:
-            logging.error(f"Unexpected {e=}, {type(e)=}")
+            logger.error(f"Unexpected {e=}, {type(e)=}")
         dialog.setFixedSize(632, 800)
         dialog.setWindowTitle("CAD批次作業 - Powered by ZackHuang")
         self.source_path = "D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects"
@@ -246,7 +247,7 @@ class Ui_Dialog(object):
                                                                             "Open folder",
                                                                             "./")  # start path
             print(folder_path_choose)
-            logger.info(folder_path_choose)
+            logger.info(f"Choosing folder_path is the {folder_path_choose}")
             if folder_path_choose == "":
                 # self.windowAlert(title="系統提醒", message="取消選擇")
                 return
@@ -349,5 +350,5 @@ if __name__ == "__main__":
         dialog.show()
     except Exception as e:
         print(e)
-        logging.error(f"Unexpected {e=}, {type(e)=}")
+        logger.error(f"Unexpected {e=}, {type(e)=}")
     sys.exit(app.exec_())

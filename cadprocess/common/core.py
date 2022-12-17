@@ -6,7 +6,9 @@ from os.path import join
 import win32com.client
 import pythoncom
 import os
+import logging
 
+logger = logging.getLogger()
 
 def APoint(x, y):
     """坐标点转化为浮点数"""
@@ -25,6 +27,7 @@ def explode(acad, doc, layout, path, file_name, config):
         message = 'Completed'
     except Exception as e:
         print(e)
+        logger.error(e)
         success = False
         message = str(e)
 
@@ -48,6 +51,7 @@ def adjust(acad, doc, layout, path, file_name, config):
         message = 'Completed'
     except Exception as e:
         print(e)
+        logger.error(e)
         success = False
         message = str(e)
 
@@ -57,11 +61,13 @@ def saveAsDwg(acad, doc, layout, path, file_name, config):
     try:
         output = get_dir(path, file_name, config)
         print("print file in Dir = ", output[1])
+        logger.info("print file in Dir = ", output[1])
         doc.SaveAs(output[1], 12)
         success = True
         message = 'Completed'
     except Exception as e:
         print(e)
+        logger.error(e)
         success = False
         message = str(e)
 
@@ -76,11 +82,13 @@ def saveAsDxf(acad, doc, layout, path, file_name, config):
         except:
             pass
         print("print file in Dir = ", output[1])
+        logger.info("print file in Dir = ", output[1])
         doc.SaveAs(output[1], 13)
         success = True
         message = 'Completed'
     except Exception as e:
         print(e)
+        logger.error(e)
         success = False
         message = str(e)
 
@@ -104,6 +112,7 @@ def exportFile(acad, doc, layout, path, file_name, config):
                 lowerLeft, underRight = entity.GetBoundingBox()
 
         print("lowerLeft", [lowerLeft[0], lowerLeft[1]], "underRight", [underRight[0], underRight[1]])
+        logger.info("lowerLeft", [lowerLeft[0], lowerLeft[1]], "underRight", [underRight[0], underRight[1]])
 
         # 打印機
 
@@ -127,12 +136,14 @@ def exportFile(acad, doc, layout, path, file_name, config):
         # layout.PlotType = 3.5
         output = get_dir(path, file_name, config)
         print("print file in Dir = ", output[1])
+        logger.info("print file in Dir = ", output[1])
         doc.Plot.PlotToFile(output[1])
         success = True
         message = 'Completed'
 
     except Exception as e:
         print(e)
+        logger.error(e)
         success = False
         message = str(e)
 
