@@ -79,7 +79,7 @@ except Exception as e:
     exceptionbox(title=app_name, msg=str(e))
 
 import easygui
-import converter
+# import converter
 
 # inputFolder = easygui.diropenbox(msg='選擇欲轉檔之資料夾')
 # print(inputFolder)
