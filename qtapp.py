@@ -64,7 +64,7 @@ class Ui_Dialog(object):
         global defaultPrinterPath
         try:
             logger.info('Start reading filepath of plot.config...')
-            f = open('cadprocess/config/plot.config')
+            f = open('plot.config')
             text = f.read()
             print(text)
             logger.info(text)
