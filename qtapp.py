@@ -184,6 +184,7 @@ class Ui_Dialog(object):
 
         self.btn_log_path = QtWidgets.QPushButton(dialog, text="變更")
         self.btn_log_path.setGeometry(QtCore.QRect(380, 730, 93, 28))
+        self.btn_log_path.clicked.connect(self.onSaveLocationBtnClick)
 
         QtCore.QMetaObject.connectSlotsByName(dialog)
 
@@ -256,6 +257,24 @@ class Ui_Dialog(object):
             self.source_path = folder_path_choose
             self.label_source_path.setText(self.source_path)
             self.updateFolderList()
+
+        except Exception as e:
+            self.windowAlert(title="系統提醒", message=str(e))
+
+    def onSaveLocationBtnClick(self):
+        try:
+            folder_path_choose = QtWidgets.QFileDialog.getExistingDirectory(self.btn_choose_folder,
+                                                                            "Open folder",
+                                                                            "./")  # start path
+            print(folder_path_choose)
+            logger.info(f"Choosing folder_path is the {folder_path_choose}")
+            if folder_path_choose == "":
+                return
+
+            # update text and folder list
+            self.log_path = folder_path_choose
+            self.label_log_path.setText(self.log_path)
+            # self.updateFolderList()
 
         except Exception as e:
             self.windowAlert(title="系統提醒", message=str(e))
