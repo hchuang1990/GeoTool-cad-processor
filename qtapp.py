@@ -75,8 +75,8 @@ class Ui_Dialog(object):
             logger.error(f"Unexpected {e}")
         dialog.setFixedSize(632, 800)
         dialog.setWindowTitle("CAD批次作業 - Powered by ZackHuang")
-        self.source_path = "D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects"
-        self.log_path = "D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects"
+        self.source_path = "C:\\"
+        self.log_path = "C:\\"
 
         self.groupBox = QtWidgets.QGroupBox(dialog, title="來源")
         self.groupBox.setGeometry(QtCore.QRect(20, 20, 471, 391))
@@ -144,12 +144,12 @@ class Ui_Dialog(object):
              "acAlignmentBottomRight"]
         )
 
-        self.selectPaper = QtWidgets.QComboBox(self.groupBox_2)
-        self.selectPaper.setGeometry(QtCore.QRect(140, 230, 311, 21))
-        self.updateSelectPaper()
-
-        self.label_11 = QtWidgets.QLabel(self.groupBox_2, text="紙張大小")
-        self.label_11.setGeometry(QtCore.QRect(40, 230, 91, 16))
+        # self.selectPaper = QtWidgets.QComboBox(self.groupBox_2)
+        # self.selectPaper.setGeometry(QtCore.QRect(140, 230, 311, 21))
+        # self.updateSelectPaper()
+        #
+        # self.label_11 = QtWidgets.QLabel(self.groupBox_2, text="紙張大小")
+        # self.label_11.setGeometry(QtCore.QRect(40, 230, 91, 16))
 
 
         self.selectFormat = QtWidgets.QComboBox(self.groupBox_2)
@@ -158,7 +158,7 @@ class Ui_Dialog(object):
         self.selectFormat.currentTextChanged.connect(self.onOnFormatChanged)
 
         self.selectPrinter = QtWidgets.QComboBox(self.groupBox_2)
-        self.selectPrinter.setGeometry(QtCore.QRect(140, 190, 201, 21))
+        self.selectPrinter.setGeometry(QtCore.QRect(140, 190, 311, 21))
         self.updateSelectPrinter()
 
         self.label_10 = QtWidgets.QLabel(self.groupBox_2, text="印表機")
@@ -172,9 +172,9 @@ class Ui_Dialog(object):
         self.label_12 = QtWidgets.QLabel(self.groupBox_2, text="格式")
         self.label_12.setGeometry(QtCore.QRect(41, 150, 91, 16))
 
-        self.btn_definePrinter = QtWidgets.QPushButton(self.groupBox_2, text="連結")
-        self.btn_definePrinter.setGeometry(QtCore.QRect(360, 188, 93, 25))
-        self.btn_definePrinter.clicked.connect(self.onPrinterPathClick)
+        # self.btn_definePrinter = QtWidgets.QPushButton(self.groupBox_2, text="連結")
+        # self.btn_definePrinter.setGeometry(QtCore.QRect(360, 188, 93, 25))
+        # self.btn_definePrinter.clicked.connect(self.onPrinterPathClick)
 
         self.label_log_path = QtWidgets.QLabel(dialog, text=self.log_path)
         self.label_log_path.setGeometry(QtCore.QRect(120, 740, 219, 15))
@@ -197,7 +197,7 @@ class Ui_Dialog(object):
             "saveAs": self.cb_saveAs.isChecked(),
             "format": self.selectFormat.currentText(),
             "printer": self.selectPrinter.currentText(),
-            "papper": self.selectPaper.currentText(),
+            "papper": 'ISO_full_bleed_A2_(594.00_x_420.00_MM)',
             "log_path": self.log_path,
             "adjust": self.cb_adjust.isChecked(),
             "adjust_direction": self.selectAdjust.currentIndex()
@@ -208,7 +208,7 @@ class Ui_Dialog(object):
             self.windowAlert(title="系統提醒", message="請選取有效的資料")
             return
         if self.cb_saveAs.isChecked() and self.selectFormat in ["pdf", "tiff", "jpg"]:
-            if self.selectPrinter.currentText() == '' or self.selectPaper.currentText() == '':
+            if self.selectPrinter.currentText() == '':
                 self.windowAlert(title="系統提醒", message="請選擇正確的存檔設定")
                 return
         if self.cb_saveAs.isChecked() is False and self.cb_explode.isChecked() is False and self.cb_adjust.isChecked() is False:
@@ -219,7 +219,7 @@ class Ui_Dialog(object):
 
     def onOnFormatChanged(self, value):
         self.selectPrinter.setEnabled(value in ["pdf", "tiff", "jpg"])
-        self.selectPaper.setEnabled(value in ["pdf", "tiff", "jpg"])
+        # self.selectPaper.setEnabled(value in ["pdf", "tiff", "jpg"])
 
     def btn_cancel_clicked(self):
         self.exit()
@@ -335,9 +335,9 @@ class Ui_Dialog(object):
         for format in formats:
             self.selectFormat.addItem(format)
 
-    def updateSelectPaper(self):
-        for paper in papers:
-            self.selectPaper.addItem(paper)
+    # def updateSelectPaper(self):
+    #     for paper in papers:
+    #         self.selectPaper.addItem(paper)
 
     def windowAlert(self, title, message):
         QtWidgets.QMessageBox.information(None, title, message)

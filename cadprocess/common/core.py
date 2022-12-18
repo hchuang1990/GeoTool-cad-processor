@@ -61,7 +61,7 @@ def saveAsDwg(acad, doc, layout, path, file_name, config):
     try:
         output = get_dir(path, file_name, config)
         print("print file in Dir = ", output[1])
-        logger.info("print file in Dir = ", output[1])
+        logger.info(f"print file in Dir = {output[1]}")
         doc.SaveAs(output[1], 12)
         success = True
         message = 'Completed'
@@ -82,7 +82,7 @@ def saveAsDxf(acad, doc, layout, path, file_name, config):
         except:
             pass
         print("print file in Dir = ", output[1])
-        logger.info("print file in Dir = ", output[1])
+        logger.info(f"print file in Dir = {output[1]}")
         doc.SaveAs(output[1], 13)
         success = True
         message = 'Completed'
@@ -112,7 +112,7 @@ def exportFile(acad, doc, layout, path, file_name, config):
                 lowerLeft, underRight = entity.GetBoundingBox()
 
         print("lowerLeft", [lowerLeft[0], lowerLeft[1]], "underRight", [underRight[0], underRight[1]])
-        logger.info("lowerLeft", [lowerLeft[0], lowerLeft[1]], "underRight", [underRight[0], underRight[1]])
+        # logger.info("lowerLeft", [lowerLeft[0], lowerLeft[1]], "underRight", [underRight[0], underRight[1]])
 
         # 打印機
 
@@ -136,7 +136,7 @@ def exportFile(acad, doc, layout, path, file_name, config):
         # layout.PlotType = 3.5
         output = get_dir(path, file_name, config)
         print("print file in Dir = ", output[1])
-        logger.info("print file in Dir = ", output[1])
+        logger.info(f"print file in Dir = {output[1]}")
         doc.Plot.PlotToFile(output[1])
         success = True
         message = 'Completed'
