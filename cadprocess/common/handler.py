@@ -81,7 +81,7 @@ def  handle(config):
                                                            config=config)
             except Exception as e:
                 print(e)
-                logger.error(f"Unexpected {e=}, {type(e)=}")
+                logger.error(f"Unexpected {e}")
             finally:
                 try:
                     time.sleep(0.5)

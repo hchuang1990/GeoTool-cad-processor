@@ -69,10 +69,10 @@ class Ui_Dialog(object):
             print(text)
             logger.info(text)
             defaultPrinterPath = text
-            f.close
+            f.close()
             logger.info('Finished reading plot.config file.')
         except Exception as e:
-            logger.error(f"Unexpected {e=}, {type(e)=}")
+            logger.error(f"Unexpected {e}")
         dialog.setFixedSize(632, 800)
         dialog.setWindowTitle("CAD批次作業 - Powered by ZackHuang")
         self.source_path = "D:\\事業體\\05_可宸數位科技\\00_Project\\1111008_dwg2shp\\projects"
@@ -369,5 +369,5 @@ if __name__ == "__main__":
         dialog.show()
     except Exception as e:
         print(e)
-        logger.error(f"Unexpected {e=}, {type(e)=}")
+        logger.error(f"Unexpected {e}")
     sys.exit(app.exec_())
