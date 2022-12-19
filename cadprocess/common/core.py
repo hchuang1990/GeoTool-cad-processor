@@ -59,7 +59,10 @@ def adjust(acad, doc, layout, path, file_name, config):
 
 def saveAsDwg(acad, doc, layout, path, file_name, config):
     try:
-        output = get_dir(path, file_name, config)
+        if config["explode"] is True:
+            output = get_dir_fixed(path, file_name, config)
+        else:
+            output = get_dir(path, file_name, config)
         print("print file in Dir = ", output[1])
         logger.info(f"print file in Dir = {output[1]}")
         doc.SaveAs(output[1], 12)
@@ -76,11 +79,10 @@ def saveAsDwg(acad, doc, layout, path, file_name, config):
 
 def saveAsDxf(acad, doc, layout, path, file_name, config):
     try:
-        output = get_dir(path, file_name, config)
-        try:
-            os.mkdir(output[0])
-        except:
-            pass
+        if config["explode"] is True:
+            output = get_dir_fixed(path, file_name, config)
+        else:
+            output = get_dir(path, file_name, config)
         print("print file in Dir = ", output[1])
         logger.info(f"print file in Dir = {output[1]}")
         doc.SaveAs(output[1], 13)
@@ -134,7 +136,10 @@ def exportFile(acad, doc, layout, path, file_name, config):
         po2 = APoint(underRight[0] * Scale - 1 + 11880, underRight[1] * Scale + 8400)  # 左下点和右上点
         layout.SetWindowToPlot(po1, po2)
         # layout.PlotType = 3.5
-        output = get_dir(path, file_name, config)
+        if config["explode"] is True:
+            output = get_dir_fixed(path, file_name, config)
+        else:
+            output = get_dir(path, file_name, config)
         print("print file in Dir = ", output[1])
         logger.info(f"print file in Dir = {output[1]}")
         doc.Plot.PlotToFile(output[1])
@@ -151,7 +156,10 @@ def exportFile(acad, doc, layout, path, file_name, config):
 
 def exportDgn(acad, doc, layout, path, file_name, config):
     try:
-        output = get_dir(path, file_name, config)
+        if config["explode"] is True:
+            output = get_dir_fixed(path, file_name, config)
+        else:
+            output = get_dir(path, file_name, config)
         doc.SendCommand("-DGNEXPORT"+chr(13)+"V8"+chr(13)+f"{output[1]}"+chr(13)+"Y"+chr(13)+"Y"+chr(13)+"M"+chr(13)+chr(13)+chr(13))
         success = True
         message = 'Completed'
@@ -171,4 +179,10 @@ def get_dir(path, file_name, config):
         os.mkdir(output_path)
     except:
         pass
+    return [output_path, output_path_file]
+
+
+def get_dir_fixed(path, file_name, config):
+    output_path = os.path.join(path)
+    output_path_file = f"{output_path}\\{file_name.split('.')[0]}_fixed.{config['format']}"
     return [output_path, output_path_file]
