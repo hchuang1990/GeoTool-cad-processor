@@ -161,10 +161,10 @@ def exportDgn(acad, doc, layout, path, file_name, config):
     return success, message
 
 def get_dir(path, file_name, config):
-    output_path = os.path.join(path, "output_test", config['format'])
+    output_path = os.path.join(path, "output", config['format'])
     output_path_file = f"{output_path}\\{file_name.split('.')[0]}.{config['format']}"
     try:
-        os.mkdir(os.path.join(path, "output_test"))
+        os.mkdir(os.path.join(path, "output"))
     except:
         pass
     try:
