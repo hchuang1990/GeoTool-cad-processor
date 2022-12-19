@@ -74,7 +74,7 @@ class Ui_Dialog(object):
         except Exception as e:
             logger.error(f"Unexpected {e}")
         dialog.setFixedSize(632, 800)
-        dialog.setWindowTitle("CAD批次作業 - Powered by ZackHuang")
+        dialog.setWindowTitle("DWG+批次轉檔程式 Powered by ZackHuang")
         self.source_path = "C:\\"
         self.log_path = "C:\\"
 
