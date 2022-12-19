@@ -45,7 +45,7 @@ logger.addHandler(fh)
 
 # formats = ["dwg", "dxf", "pdf", "tiff", "jpg", "dgn"]
 formats = ["dwg", "dxf", "tiff", "jpg", "dgn"]
-printers = ["DWG To PDF", "DWG To TIFF6", "PublishToWeb JPG"]
+printers = ["DWG To TIFF6", "PublishToWeb JPG"]
 papers = ["ISO_full_bleed_A2_(594.00_x_420.00_MM)", "ISO full bleed A3 (420.00 x 297.00 MM)",
           "ISO full bleed A4 (297.00 x 210.00 MM)"]
 # dwgs = ["58年地形套疊圖.dwg", "77年正射影像套疊圖.dwg", "77年地形套疊圖.dwg", "83年正射影像套疊圖.dwg", "83年地形套疊圖.dwg", "相關位置圖(107年地形圖).dwg"]
