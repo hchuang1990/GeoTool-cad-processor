@@ -52,7 +52,7 @@ def  handle(config):
                     print(f"{file_path} run explode...")
                     logger.info(f"{file_path} run explode...")
                     success, message = core.explode(acad=acad, layout=layout, doc=doc, path=path, file_name=file_name,
-                                                          config=config, logger=logger)
+                                                          config=config)
                     pass
                 if config["adjust"] is True:
                     print(f"{file_path} run adjust...")
