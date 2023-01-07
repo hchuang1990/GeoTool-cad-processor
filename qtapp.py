@@ -43,8 +43,7 @@ logger.addHandler(ch)
 logger.addHandler(fh)
     
 
-# formats = ["dwg", "dxf", "pdf", "tiff", "jpg", "dgn"]
-formats = ["dwg", "dxf", "tiff", "jpg", "dgn"]
+formats = ["dwg", "dxf", "pdf", "tiff", "jpg", "dgn"]
 printers = ["DWG To TIFF6", "PublishToWeb JPG"]
 papers = ["ISO_full_bleed_A2_(594.00_x_420.00_MM)", "ISO full bleed A3 (420.00 x 297.00 MM)",
           "ISO full bleed A4 (297.00 x 210.00 MM)"]

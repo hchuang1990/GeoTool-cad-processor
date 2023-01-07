@@ -65,6 +65,7 @@ def saveAsDwg(acad, doc, layout, path, file_name, config):
             output = get_dir(path, file_name, config)
         print("print file in Dir = ", output[1])
         logger.info(f"print file in Dir = {output[1]}")
+        del_old_dir(output[1])
         doc.SaveAs(output[1], 12)
         success = True
         message = 'Completed'
@@ -85,6 +86,7 @@ def saveAsDxf(acad, doc, layout, path, file_name, config):
             output = get_dir(path, file_name, config)
         print("print file in Dir = ", output[1])
         logger.info(f"print file in Dir = {output[1]}")
+        del_old_dir(output[1])
         doc.SaveAs(output[1], 13)
         success = True
         message = 'Completed'
@@ -140,6 +142,7 @@ def exportFile(acad, doc, layout, path, file_name, config):
             output = get_dir_fixed(path, file_name, config)
         else:
             output = get_dir(path, file_name, config)
+        del_old_dir(output[1])
         print("print file in Dir = ", output[1])
         logger.info(f"print file in Dir = {output[1]}")
         doc.Plot.PlotToFile(output[1])
@@ -160,6 +163,7 @@ def exportDgn(acad, doc, layout, path, file_name, config):
             output = get_dir_fixed(path, file_name, config)
         else:
             output = get_dir(path, file_name, config)
+        del_old_dir(output[1])
         doc.SendCommand("-DGNEXPORT"+chr(13)+"V8"+chr(13)+f"{output[1]}"+chr(13)+"Y"+chr(13)+"Y"+chr(13)+"M"+chr(13)+chr(13)+chr(13))
         success = True
         message = 'Completed'
@@ -186,3 +190,9 @@ def get_dir_fixed(path, file_name, config):
     output_path = os.path.join(path)
     output_path_file = f"{output_path}\\{file_name.split('.')[0]}_fixed.{config['format']}"
     return [output_path, output_path_file]
+
+def del_old_dir(outputpath):
+    if os.path.isfile(outputpath):
+        os.unlink(outputpath)
+        print(f"Clean the old file.The path is {outputpath}")
+        logger.info(f"Clean the old file.The path is {outputpath}")
