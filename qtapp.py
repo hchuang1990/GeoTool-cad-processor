@@ -303,7 +303,7 @@ class Ui_Dialog(object):
             for folder in folderCheck:
                 arr = listdir(join(self.source_path, folder))
                 for f in arr:
-                    if isfile(join(self.source_path, folder, f)) and ".DWG" in f:
+                    if isfile(join(self.source_path, folder, f)) and ".dwg" in f.lower():
                         tmpFileArr.add(f'%_{f.split("_")[1]}')
 
             dwgs = list(tmpFileArr)
