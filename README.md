@@ -20,5 +20,5 @@ auto-py-to-exe
 ## Script
 
 ``` python
-pyinstaller --noconfirm --onefile --console  "***.py filepath***"
+pyinstaller --noconfirm --onefile --windowed  "D:/mPython/cad_preprocess/qtapp.py"
 ```
