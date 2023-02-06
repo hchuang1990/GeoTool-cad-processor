@@ -6,6 +6,7 @@
 # import dwg2tiff
 
 # from qtapp import Ui_Dialog
+import os
 from os.path import join
 import win32com.client
 import cadprocess.common.core as core
@@ -33,6 +34,9 @@ def  handle(config):
             logger.info(f"========================================")
             logger.info(f"{file_path} start")
             try:
+                if not os.path.exists(file_path):
+                    logger.info(f"skip open {file_path} due to file is not exist")
+                    continue
                 opened = False
                 doc = None
                 while opened is False:
